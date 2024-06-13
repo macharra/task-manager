@@ -1,3 +1,5 @@
+# lib/models/models.py
+
 from sqlalchemy import Column, Integer, String, ForeignKey, Table, create_engine
 from sqlalchemy.orm import declarative_base, relationship
 
@@ -8,7 +10,8 @@ engine = create_engine(db_url)
 Base =  declarative_base()
 
 
-task_project_assoc = Table("task_project", Base.metadata, 
+task_project_assoc = Table(
+    "task_project", Base.metadata, 
     Column("task_id", Integer, ForeignKey("tasks.id"), primary_key=True), 
     Column("project_id", Integer, ForeignKey("projects.id"), primary_key=True))
 
@@ -30,7 +33,7 @@ class Task(Base):
     status = Column(String, nullable=False)
     employee_id = Column(Integer, ForeignKey("employees.id"))
 
-    employee = relationship("Employee", back_populates="employee")
+    employee = relationship("Employee", back_populates="tasks")
     projects = relationship("Project", secondary=task_project_assoc, back_populates="tasks")
 
 
