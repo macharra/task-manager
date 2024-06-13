@@ -42,7 +42,7 @@ Employee Task Manager is a command-line application built using Python and SQLAl
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/macharra/employee-task-manager.git
+   git clone https://github.com/yourusername/employee-task-manager.git
    cd task-manager
 Install dependencies:
 
