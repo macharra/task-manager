@@ -1,0 +1,30 @@
+Departments:
+Frontend
+Backend
+IT
+
+Frontend Projects:
+Todo Interface
+    desc: React based todo app
+
+Calculator Interface
+    desc:Angular based calculator app
+
+Backend Projects:
+flight app
+    desc: php based backend logic for flight app
+
+api app
+    desc: pythn based backend logic for api app
+
+IT projects:
+software check
+    desc: software update
+
+hardware check
+    desc: hardware update
+
+current employees:
+Hassan Ackermann - IT
+Ryan Hazel - Backend
+Annie Javi -    Frontend

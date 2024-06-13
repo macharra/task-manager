@@ -22,8 +22,10 @@ class Employee(Base):
     id = Column(Integer, primary_key=True) 
     name = Column(String, nullable=False)
     department = Column(String, nullable=False)
-    tasks = relationship("Task", back_populates="employee")
+    tasks = relationship("Task", back_populates="employee", cascade='all, delete-orphan')
 
+    def __repr__(self):
+        return f"<Employee(id={self.id}, name={self.name}, department={self.department})>"                                                                                                                                       
 
 class Task(Base):
     __tablename__ = "tasks"
@@ -36,6 +38,8 @@ class Task(Base):
     employee = relationship("Employee", back_populates="tasks")
     projects = relationship("Project", secondary=task_project_assoc, back_populates="tasks")
 
+    def __repr__(self):
+        return f"<Project(id={self.id}, name={self.name}, description={self.description})>"
 
 class Project(Base):
     __tablename__ = "projects"

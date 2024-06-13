@@ -1,8 +1,9 @@
 # lib/cli.py
-
+import cli
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from sqlalchemy.orm import sessionmaker
 from lib.models.models import Employee, Task, Project, engine
 from lib.helpers import (
@@ -34,7 +35,7 @@ def main():
 
 
 def menu():
-    print("\t\t EMPLOYEE TASK MANAGER \t\t")
+    print("***EMPLOYEE TASK MANAGER***")
     print("Please select an option(0-4):")
     print("0. Help")
     print("1. Manage Employees")
@@ -55,9 +56,8 @@ def manage_employees(session):
 
         if choice == "1":
             name = input("Enter Employee name: ")
-            age = int(input("Enter Employee age: "))
             department = input("Enter Employee department: ")
-            new_employee = Employee(name=name, age=age, department=department)
+            new_employee = Employee(name=name, department=department)
             session.add(new_employee)
             session.commit()
             print("Employee added successfully!")
@@ -65,14 +65,13 @@ def manage_employees(session):
         elif choice == "2":
             employees = session.query(Employee).all()
             for employee in employees:
-                print(f"ID: {employee.id}, Name: {employee.name}, Age: {employee.age}, Department: {employee.department}")
+                print(f"ID: {employee.id}, Name: {employee.name}, Department: {employee.department}")
             
         elif choice == "3":
             emp_id = int(input("Enter employee ID to update: "))
             employee = session.query(Employee).get(emp_id)
             if employee:
                 employee.name = input("Enter new name: ")
-                employee.age = int(input("Enter new age: "))
                 employee.department = input("Enter new department: ")
                 session.commit()
                 print("Employee updated successfully!")
@@ -99,9 +98,9 @@ def manage_projects(session):
     while True:
         print ("\nManage Projects:")
         print("1. Add Project")
-        print("1. View Projects")
-        print("1. Update Project")
-        print("1. Delete Project")
+        print("2. View Projects")
+        print("3. Update Project")
+        print("4. Delete Project")
         print("5. Back to Main Menu")
         choice = input("> ")
 
@@ -152,10 +151,22 @@ def manage_tasks(session):
         choice = input("> ")
 
         if choice == "1":
-            name = input("Enter task name: ")
             description = input("Enter task description: ")
-            status = input("Enter task status: ")
-            new_task = Task(name=name, description=description, status=status)
+            print("Choose task status:")
+            print("1. Completed")
+            print("2. Pending")
+            status_choice = input("> ")
+            
+            if status_choice == "1":
+                status = "completed"
+            elif status_choice == "2":
+                status = "pending"
+            else:
+                print("Invalid status choice.")
+                continue
+            
+            employee_id = input("Enter employee ID for this task: ")
+            new_task = Task(description=description, status=status, employee_id=employee_id)
             session.add(new_task)
             session.commit()
             print("Task added.")
@@ -163,15 +174,25 @@ def manage_tasks(session):
         elif choice == "2":
             tasks = session.query(Task).all()
             for task in tasks:
-                print(f"ID: {task.id}, Name: {task.name}, Description: {task.description}, Status: {task.status}")
+                print(f"ID: {task.id}, Description: {task.description}, Status: {task.status}, Employee ID: {task.employee_id}")
 
         elif choice == "3":
             task_id = int(input("Enter task ID to update: "))
             task = session.query(Task).get(task_id)
             if task:
-                task.name = input("Enter new name: ")
-                task.status = input("Enter new status: ")
-                task.description = input("Enter new description: ")
+                print("Choose task status:")
+                print("1. Completed")
+                print("2. Pending")
+                status_choice = input("> ")
+                
+                if status_choice == "1":
+                    task.status = "completed"
+                elif status_choice == "2":
+                    task.status = "pending"   
+                else:
+                    print("Invalid status choice.")
+                    continue
+                
                 session.commit()
                 print("Task updated.")
             else:
