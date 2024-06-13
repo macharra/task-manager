@@ -39,8 +39,56 @@ def menu():
     print("3. Manage Tasks")
     print("4. Exit the program")
 
-def manage_employees():
-    pass
+def manage_employees(session):
+    while True:
+        print("\nManage Employees:")
+        print("1. Add Employee")
+        print("2. View Employee")
+        print("3. Update Employee")
+        print("4. Delete Employee")
+        print("5. Back to Main Menu")
+
+        choice = input(">")
+
+        if choice == "1":
+            name = input("Enter Employee name: ")
+            age = int(input("Enter Employee age: "))
+            new_employee = Employee(name=name, age=age)
+            session.add(new_employee)
+            session.commit()
+            print("Employee added successfully")
+
+        elif choice == "2":
+            employees = session.query(Employee).all()
+            for employee in employees:
+                print(f"ID: {employee.id}, Name: {employee.name}, Age: {employee.age}")
+            
+        elif choice == "3":
+            emp_id = int(input("Enter employee ID to update: "))
+            employee = session.query(Employee).get(emp_id)
+            if employee:
+                employee.name = input("Enter new name: ")
+                employee.age = int(input("Enter new age: "))
+                session.commit()
+                print("Employee updated.")
+            else:
+                print("Employee not found.")
+
+        elif choice == "4":
+            emp_id = int(input("Enter employee ID to delete: "))
+            employee = session.query(Employee).get(emp_id)
+            if employee:
+                session.delete(employee)
+                session.commit()
+                print("Employee deleted.")
+            else:
+                print("Employee not found.")
+
+        elif choice == "5":
+            break
+        else:
+            print("Invalid choice, please try again.")
+
 
 def manage_projects():
     pass
