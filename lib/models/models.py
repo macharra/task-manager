@@ -34,6 +34,10 @@ class Task(Base):
     description = Column(String, nullable=False)
     status = Column(String, nullable=False)
     employee_id = Column(Integer, ForeignKey("employees.id"))
+    def __init__(self, description, status, employee_id):
+        self.description = description
+        self.status = status
+        self.employee_id = employee_id
 
     employee = relationship("Employee", back_populates="tasks")
     projects = relationship("Project", secondary=task_project_assoc, back_populates="tasks")

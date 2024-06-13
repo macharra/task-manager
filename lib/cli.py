@@ -1,5 +1,4 @@
 # lib/cli.py
-import cli
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -15,6 +14,7 @@ Session = sessionmaker(bind=engine)
 
 def main():
     session = Session()
+
 
     while True:
         menu()
@@ -153,6 +153,7 @@ def manage_tasks(session):
         if choice == "1":
             description = input("Enter task description: ")
             print("Choose task status:")
+            print("0. Help")
             print("1. Completed")
             print("2. Pending")
             status_choice = input("> ")
@@ -161,6 +162,8 @@ def manage_tasks(session):
                 status = "completed"
             elif status_choice == "2":
                 status = "pending"
+            elif status_choice == "0":
+                helper_1()
             else:
                 print("Invalid status choice.")
                 continue
@@ -188,7 +191,7 @@ def manage_tasks(session):
                 if status_choice == "1":
                     task.status = "completed"
                 elif status_choice == "2":
-                    task.status = "pending"   
+                    task.status = "pending"
                 else:
                     print("Invalid status choice.")
                     continue
@@ -212,6 +215,7 @@ def manage_tasks(session):
             break
         else:
             print("Invalid choice, please try again.")
+
 
 
 
