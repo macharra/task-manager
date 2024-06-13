@@ -90,8 +90,51 @@ def manage_employees(session):
             print("Invalid choice, please try again.")
 
 
-def manage_projects():
-    pass
+def manage_projects(session):
+    while True:
+        print ("\nManage Projects:")
+        print("1. Add Project")
+        print("1. View Projects")
+        print("1. Update Project")
+        print("1. Delete Project")
+        print("5. Back to Main Menu")
+        choice = input("> ")
+
+        if choice == "1":
+            name = input("Enter project name: ")
+            description = input("Enter project description: ")
+            new_project = Project(name=name, description=description)
+            session.add(new_project)
+            session.commit()
+            print("Project added.")
+        elif choice == "2":
+            projects = session.query(Project).all()
+            for project in projects:
+                print(f"ID: {project.id}, Name: {project.name}, Description: {project.description}")
+        elif choice == "3":
+            proj_id = int(input("Enter project ID to update: "))
+            project = session.query(Project).get(proj_id)
+            if project:
+                project.name = input("Enter new name: ")
+                project.description = input("Enter new description: ")
+                session.commit()
+                print("Project updated.")
+            else:
+                print("Project not found.")
+        elif choice == "4":
+            proj_id = int(input("Enter project ID to delete: "))
+            project = session.query(Project).get(proj_id)
+            if project:
+                session.delete(project)
+                session.commit()
+                print("Project deleted.")
+            else:
+                print("Project not found.")
+        elif choice == "5":
+            break
+        else:
+            print("Invalid choice, please try again.")
+
 
 def manage_tasks():
     pass
